@@ -16327,20 +16327,20 @@ __metadata:
   linkType: hard
 
 "@rspack/dev-server@npm:^1.0.9":
-  version: 1.1.0
-  resolution: "@rspack/dev-server@npm:1.1.0"
+  version: 1.1.1
+  resolution: "@rspack/dev-server@npm:1.1.1"
   dependencies:
     chokidar: ^3.6.0
-    express: ^4.19.2
-    http-proxy-middleware: ^2.0.6
+    express: ^4.21.2
+    http-proxy-middleware: ^2.0.7
     mime-types: ^2.1.35
     p-retry: ^6.2.0
     webpack-dev-middleware: ^7.4.2
     webpack-dev-server: 5.2.0
-    ws: ^8.16.0
+    ws: ^8.18.0
   peerDependencies:
     "@rspack/core": "*"
-  checksum: edaa1ae9b489c37792a75da76d7b8139c2a3b3d48225aa6c7b24329fe6e653c82082c5ec5b20569dda9beed87fd0ac07fe221ccbee5b8ad7dd6d542e71228bef
+  checksum: f251df03ddd2edbab52fcb88a605ab270863240a5c6012120b5727418f46a8d1e2cc7488f94e498c090511fbb5423b68bb9ee6e20594fb75c168888a453f1ad0
   languageName: node
   linkType: hard
 
@@ -47996,7 +47996,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:*, ws@npm:^8.11.0, ws@npm:^8.12.0, ws@npm:^8.13.0, ws@npm:^8.16.0, ws@npm:^8.17.1, ws@npm:^8.18.0, ws@npm:^8.2.3, ws@npm:^8.8.0":
+"ws@npm:*, ws@npm:^8.11.0, ws@npm:^8.12.0, ws@npm:^8.13.0, ws@npm:^8.17.1, ws@npm:^8.18.0, ws@npm:^8.2.3, ws@npm:^8.8.0":
   version: 8.18.1
   resolution: "ws@npm:8.18.1"
   peerDependencies:
