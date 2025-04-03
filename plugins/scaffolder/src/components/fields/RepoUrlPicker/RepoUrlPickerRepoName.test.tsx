@@ -81,6 +81,38 @@ describe('RepoUrlPickerRepoName', () => {
     expect(onChange).toHaveBeenCalledWith({ name: 'foo' });
   });
 
+  it('should autocomplete with provided availableRepos filtered by allowedRepoPattern', async () => {
+    const availableRepos = [{ name: 'foo' }, { name: 'bar' }, { name: 'baz' }];
+
+    const expectedRepos = ['bar', 'baz'];
+
+    const allowedRepoPattern = 'ba';
+
+    const onChange = jest.fn();
+
+    const { getByRole, getByText } = await renderInTestApp(
+      <RepoUrlPickerRepoName
+        onChange={onChange}
+        availableRepos={availableRepos}
+        allowedRepoPattern={allowedRepoPattern}
+        rawErrors={[]}
+      />,
+    );
+
+    // Open the Autocomplete dropdown
+    const input = getByRole('textbox');
+    await userEvent.click(input);
+
+    // Verify that available repos are shown
+    for (const name of expectedRepos) {
+      expect(getByText(name)).toBeInTheDocument();
+    }
+
+    // Verify that selecting an option calls onChange
+    await userEvent.click(getByText(availableRepos[0].name));
+    expect(onChange).toHaveBeenCalledWith(availableRepos[0]);
+  });
+
   it('should autocomplete with provided availableRepos', async () => {
     const availableRepos = [{ name: 'foo' }, { name: 'bar' }];
 

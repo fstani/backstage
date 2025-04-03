@@ -54,7 +54,7 @@ export const RepoUrlPickerRepoName = (props: {
   }, [allowedRepos, repoName, onChange]);
 
   const filteredRepos = useMemo(() => {
-    if (allowedRepoPattern? === '') {
+    if (!!allowedRepoPattern) {
       return availableRepos;
     }
 
@@ -63,12 +63,13 @@ export const RepoUrlPickerRepoName = (props: {
     return availableRepos?.filter(r => pattern.test(r.name));
   }, [availableRepos, allowedRepoPattern]);
 
-  const onAutocompleteRepo = useCallback((_, newValue) => {
-    const selectedRepo = filteredRepos?.find(
-      r => r.name === newValue,
-    );
-    onChange(selectedRepo || { name: newValue || '' });
-  }, filteredRepos, allowedRepoPattern);
+  const onAutocompleteRepo = useCallback(
+    (newValue: string) => {
+      const selectedRepo = filteredRepos?.find(r => r.name === newValue);
+      onChange(selectedRepo || { name: newValue || '' });
+    },
+    [filteredRepos, onChange],
+  );
 
   const repoItems: SelectItem[] = allowedRepos
     ? allowedRepos.map(i => ({ label: i, value: i }))
@@ -97,7 +98,7 @@ export const RepoUrlPickerRepoName = (props: {
         ) : (
           <Autocomplete
             value={repoName}
-            onInputChange={onAutocompleteRepo}
+            onInputChange={(_, newValue) => onAutocompleteRepo(newValue)}
             options={(availableRepos || []).map(r => r.name)}
             renderInput={params => (
               <TextField
