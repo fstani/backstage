@@ -77,6 +77,10 @@ export const RepoUrlPicker = (
     () => uiSchema?.['ui:options']?.allowedRepos ?? [],
     [uiSchema],
   );
+  const allowedRepoPattern = useMemo(
+    () => uiSchema?.['ui:options']?.allowedRepoPattern ?? '',
+    [uiSchema],
+  );
   const isDisabled = useMemo(
     () => uiSchema?.['ui:disabled'] ?? false,
     [uiSchema],

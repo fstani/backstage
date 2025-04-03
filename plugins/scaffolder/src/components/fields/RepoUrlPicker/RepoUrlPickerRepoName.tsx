@@ -19,13 +19,14 @@ import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo, useCallback } from 'react';
 import { scaffolderTranslationRef } from '../../../translation';
 import { AvailableRepositories } from './types';
 
 export const RepoUrlPickerRepoName = (props: {
   repoName?: string;
   allowedRepos?: string[];
+  allowedRepoPattern?: string;
   onChange: (chosenRepo: AvailableRepositories) => void;
   rawErrors: string[];
   availableRepos?: AvailableRepositories[];
@@ -34,6 +35,7 @@ export const RepoUrlPickerRepoName = (props: {
   const {
     repoName,
     allowedRepos,
+    allowedRepoPattern,
     onChange,
     rawErrors,
     availableRepos,
@@ -50,6 +52,23 @@ export const RepoUrlPickerRepoName = (props: {
       }
     }
   }, [allowedRepos, repoName, onChange]);
+
+  const filteredRepos = useMemo(() => {
+    if (allowedRepoPattern? === '') {
+      return availableRepos;
+    }
+
+    const pattern = new RegExp(allowedRepoPattern);
+
+    return availableRepos?.filter(r => pattern.test(r.name));
+  }, [availableRepos, allowedRepoPattern]);
+
+  const onAutocompleteRepo = useCallback((_, newValue) => {
+    const selectedRepo = filteredRepos?.find(
+      r => r.name === newValue,
+    );
+    onChange(selectedRepo || { name: newValue || '' });
+  }, filteredRepos, allowedRepoPattern);
 
   const repoItems: SelectItem[] = allowedRepos
     ? allowedRepos.map(i => ({ label: i, value: i }))
@@ -78,12 +97,7 @@ export const RepoUrlPickerRepoName = (props: {
         ) : (
           <Autocomplete
             value={repoName}
-            onInputChange={(_, newValue) => {
-              const selectedRepo = availableRepos?.find(
-                r => r.name === newValue,
-              );
-              onChange(selectedRepo || { name: newValue || '' });
-            }}
+            onInputChange={onAutocompleteRepo}
             options={(availableRepos || []).map(r => r.name)}
             renderInput={params => (
               <TextField

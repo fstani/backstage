@@ -43,6 +43,10 @@ export const RepoUrlPickerFieldSchema = makeFieldSchema({
         .array(z.string())
         .optional()
         .describe('List of allowed repos in the given SCM platform'),
+      allowedRepoPattern: z
+        .string()
+        .optional()
+        .describe('Regex pattern for allowed repo names in the given SCM platform'),
       requestUserCredentials: z
         .object({
           secretsKey: z
